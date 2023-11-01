@@ -1,0 +1,22 @@
+{
+  "name": "simple-express-crud-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "create-react-app": "^5.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.3",
+    "mongodb": "^6.2.0",
+    "react": "^18.2.0",
+    "swagger-jsdoc": "^6.2.7",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
