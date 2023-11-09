@@ -1,0 +1,36 @@
+/* Styling for the Web Check-In form container */
+.web-checkin-form {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  background: #f4f4f4;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for labels */
+.web-checkin-label {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+/* Styling for input fields */
+.web-checkin-input {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* Styling for the Check-In button */
+.web-checkin-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+}

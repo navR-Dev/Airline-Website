@@ -1,0 +1,110 @@
+body{
+  background-image: url(https://images5.alphacoders.com/863/863248.jpg);
+  background-size:cover;
+  margin: 0;
+  padding: 0;    
+
+}
+
+.booking-form {
+  box-shadow: 0 0 10phx rgba(13, 13, 13, 0.2); 
+  width: 600px;
+  height: auto;
+  border-radius: 20px;
+  border: 4px solid #0b0c0c;
+  margin-left: 300px;
+  margin-top:60px;
+  background-color: antiwhite;
+  display: flex;
+  flex-direction: column;
+ 
+  font-size: 20px;
+  flex-wrap: wrap;
+  align-content: space-between;
+
+
+  padding: 50px;
+}
+
+.booking-form label {
+  display: block;
+  margin: 15px 0;
+ 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.booking-form input[type="text"],
+.booking-form input[type="number"],
+.booking-form input[type="date"],
+.booking-form select {
+  width: 60%;
+  padding:10px;
+  border: 1px solid #d8f4e7;
+  border-radius: 15px;
+ 
+  font-size: 16px;
+  margin-bottom: 19px;
+}
+
+.booking-form .to label select{
+  width: 86%;
+  padding:10px;
+  margin-bottom: 19px;
+}
+
+.booking-form .trip-type {
+  width: 58%;
+
+  margin-bottom:10px;
+}
+
+.booking-form .from-to-container {
+    display: flex;
+  width: 500px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+ 
+}
+
+.booking-form .from input,
+.booking-form .to input {
+  width: 92%;
+}
+
+.booking-form .dates-container {
+    display: flex;
+    width: 500px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    
+}
+
+.booking-form .departure input,
+.booking-form .return input {
+  width: 80%;
+}
+.booking-form .travellers,
+.booking-form .submit-button {
+  width: 50%;
+}
+
+.booking-form .travellers input {
+  width: 95%;
+}
+
+.booking-form .submit-button button {
+  width: 100%;
+}
+
+.booking-form button {
+  background-color:blue;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.booking-form button:hover {
+  background-color:#0056b3;
+}

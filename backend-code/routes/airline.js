@@ -145,19 +145,12 @@ connectToDb((err) => {
  *        description: There is no currently active session
  */
 
-router.get("/api", (req, res) => {
-  res.sendStatus(200);
-});
-
-router.get("/api/login", (req, res) => {
-  res.sendStatus(200);
-});
-
 async function validate(req, res) {
   const query = {
     Username: req.body.username,
     Password: req.body.password,
   };
+  console.log(query);
   const creds = await db.collection("credentials").findOne(query);
   if (creds != null) {
     req.session.authenticated = true;
@@ -186,6 +179,7 @@ async function addCred(req, res) {
   const newUser = {
     Username: req.body.username,
     Password: req.body.password,
+    Email: req.body.email,
   };
   const oldUser = await db
     .collection("credentials")
@@ -213,7 +207,7 @@ router.get("/api/logout", (req, res) => {
   }
 });
 
-router.get("/api/bookings", (req, res) => {
+/*router.get("/api/bookings", (req, res) => {
   if (true) {
     res.sendStatus(200);
   } else {
@@ -230,6 +224,6 @@ router.post("/api/bookings", (req, res) => {
   } else {
     res.sendStatus(401);
   }
-});
+});*/
 
 module.exports = router;
