@@ -2,12 +2,15 @@ const express = require("express");
 const router = express.Router();
 const { connectToDb, getDb } = require("../DB.js");
 const session = require("express-session");
+const store = new session.MemoryStore();
 const { request } = require("express");
 router.use(
   session({
     secret: "secret-key",
-    resave: false,
+    cookie: { maxAge: 30000 },
+    resave: true,
     saveUninitialized: false,
+    store,
   })
 );
 
@@ -155,6 +158,7 @@ async function validate(req, res) {
   if (creds != null) {
     req.session.authenticated = true;
     req.session.userid = req.body.username;
+    await db.collection("activeuser").insertOne({ ID: req.session.userid });
     res.sendStatus(200);
   } else {
     res.sendStatus(401);
@@ -166,9 +170,15 @@ router.post("/api/login", (req, res) => {
 });
 
 router.get("/api/user", (req, res) => {
-  res.send({
-    message: req.session.userid,
-  });
+  //console.log(req.session.authenticated);
+  let sessionCreds = db
+    .collection("activeuser")
+    .findOne({ ID: req.session.userid }, { projection: { _id: 0 } });
+  if (sessionCreds) {
+    res.status(200).send("Working");
+  } else {
+    res.status(401).send("Unauthorized");
+  }
 });
 
 router.get("/api/signup", (req, res) => {
@@ -199,31 +209,77 @@ router.post("/api/signup", (req, res) => {
 });
 
 router.get("/api/logout", (req, res) => {
-  if (req.session.authenticated) {
-    req.session.destroy();
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(400);
-  }
+  db.collection("activeuser").deleteMany({});
 });
 
-/*router.get("/api/bookings", (req, res) => {
-  if (true) {
-    res.sendStatus(200);
+async function makeBooking(req, res) {
+  let timestamp = Date.now();
+  let collection = await db.collection("activeuser");
+  let results = await collection.find({}).limit(1).toArray();
+  console.log(results[0].ID);
+  /*let sessionCreds = await db
+    .collection("activeuser")
+    .find()
+    .skip(db.collection("activeuser").count() - 1);*/
+  //console.log(sessionCreds);
+  const newBooking = {
+    BookingId: timestamp,
+    User: results[0].ID,
+    From: req.body.source,
+    To: req.body.destination,
+    tripType: req.body.tripType,
+    depDate: req.body.departureDate,
+    retDate: req.body.returnDate,
+    numPassengers: req.body.passengers,
+    checkedIn: false,
+  };
+  const oldBooking = await db
+    .collection("bookings")
+    .findOne(newBooking, { projection: { _id: 0 } });
+  if (oldBooking != null) {
+    res.sendStatus(400);
   } else {
-    res.sendStatus(401);
+    await db.collection("bookings").insertOne(newBooking);
+    //res.sendStatus(200);
+    res.send({ ID: timestamp });
   }
-});
+}
 
 router.post("/api/bookings", (req, res) => {
-  if (true) {
-    const booking = req.body;
-    console.log(booking);
-    db.collection("bookings").insertOne(booking);
-    res.sendStatus(201);
-  } else {
-    res.sendStatus(401);
+  makeBooking(req, res);
+});
+
+async function checkin(req, res) {
+  const query = {
+    BookingId: parseInt(req.body.bookingid),
+  };
+
+  try {
+    const booking = await db.collection("bookings").findOne(query);
+
+    if (booking !== null) {
+      if (!booking.checkedIn) {
+        await db
+          .collection("bookings")
+          .updateOne(
+            { BookingId: booking.BookingId },
+            { $set: { checkedIn: true } }
+          );
+        res.sendStatus(200); // Send success status if the booking exists and is updated
+      } else {
+        res.status(400).send("Booking already checked in."); // Send bad request status if already checked in
+      }
+    } else {
+      res.sendStatus(404); // Send not found status if the booking does not exist
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.sendStatus(500); // Send server error status if an error occurs
   }
-});*/
+}
+
+router.post("/api/checkin", (req, res) => {
+  checkin(req, res);
+});
 
 module.exports = router;

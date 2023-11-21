@@ -13,7 +13,8 @@ app.use(
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000",
+    credentials: true,
   })
 );
 
