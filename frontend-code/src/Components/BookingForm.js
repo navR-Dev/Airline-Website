@@ -248,6 +248,7 @@ function BookingForm() {
                 alert(
                   "Successfully booked flight. Your booking ID is " + data.ID
                 );
+                navigate("/PaymentsPage");
               } else {
                 alert("You have already booked a flight with these details!");
               }

@@ -56,7 +56,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./BookingForm.css";
 
-function BookingForm() {
+function WebCheckIn() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     bookingid: 0,
@@ -123,4 +123,4 @@ function BookingForm() {
   );
 }
 
-export default BookingForm;
+export default WebCheckIn;
