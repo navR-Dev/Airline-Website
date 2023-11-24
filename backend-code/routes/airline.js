@@ -232,6 +232,11 @@ async function makeBooking(req, res) {
       numPassengers: req.body.passengers,
       checkedIn: false,
       paid: false,
+      food: {
+        Burgers: 0,
+        Pizzas: 0,
+        Salads: 0,
+      },
     };
     const oldBooking = await db
       .collection("bookings")
@@ -320,5 +325,13 @@ async function makePayment(req, res) {
 router.post("/api/payment", (req, res) => {
   makePayment(req, res);
 });
+
+async function addFood(req, res) {
+  const foods = {
+    Burgers: req.body.numBurgers,
+    Pizzas: req.body.numPizzas,
+    Salads: req.body.numSalads,
+  };
+}
 
 module.exports = router;
